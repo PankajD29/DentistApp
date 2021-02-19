@@ -8,7 +8,10 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import {Typography,InputLabel,IconButton,Table,TableBody,TextField,TableCell,TableHead,TablePagination,TableRow,LinearProgress,Box} from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import CloseIcon from '@material-ui/icons/Close';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import {Grid,Typography,InputLabel,IconButton,Table,TableBody,TextField,TableCell,TableHead,TablePagination,TableRow,LinearProgress,Box} from '@material-ui/core';
 import tablestyle from "assets/jss/material-dashboard-react/components/tableStyle.js"
 
 
@@ -16,6 +19,7 @@ class Test extends React.Component{
   constructor(){
     super();
     this.state = {
+      isModal:false,
       patientList: [
         {
           pid:1,
@@ -83,10 +87,74 @@ class Test extends React.Component{
   componentDidMount(){
 
   }
+  handleModalClose = () => {
+      this.setState({
+        isModal : false
+      }, () => {
+        return(this.state.isModal)
+      })
+    }
+
+viewModal(data){
+      this.setState({
+        isModal : true
+      }, () => {
+      })
+    }
+
   render(){
     const {classes:classess}=this.props;
     return(
       <div>
+      <Dialog fullwidth maxWidth ='sm'
+      open={this.state.isModal}
+      >
+      <div style={{ overFlow:"hidden"}}>
+      <Card>
+      <CardHeader style={{padding:"0px",marginTop:"-30px"}}>
+      <DialogTitle className={classess.primaryTableHeader} style={{ color:'white',fontSize:'18px',height:"24px"}}
+      id="customized-dialog-title" onClose={this.handleModalClose}>
+             <div align="center" style={{fontWeight:'bold',marginTop:"-45px"}}>
+             Patient Details:
+             </div>
+             </DialogTitle>
+      <CustomIconButton title="Close" onClick={this.handleModalClose}>
+       </CustomIconButton>
+      </CardHeader>
+      <CardBody>
+      <Grid container spacing={1}>
+               {this.state.patientList[0].pid?<Grid item xs={6}>
+                 <span style={{fontWeight:'bold'}}>PID :</span> {this.state.patientList[0].pid}
+               </Grid>:null}
+               {this.state.patientList[0].date?<Grid item xs={6}>
+                 <span style={{fontWeight:'bold'}}>Date :</span> {this.state.patientList[0].date}
+               </Grid>:null}
+               {this.state.patientList[0].name?<Grid item xs={6}>
+                 <span style={{fontWeight:'bold'}}>Name :</span> {this.state.patientList[0].name}
+               </Grid>:null}
+               {this.state.patientList[0].gender?<Grid item xs={6}>
+                 <span style={{fontWeight:'bold'}}>Gender :</span> {this.state.patientList[0].gender}
+               </Grid>:null}
+               {this.state.patientList[0].age? <Grid item xs={6}>
+                  <span style={{fontWeight:'bold'}}>Age :</span> {this.state.patientList[0].age}
+                </Grid>:null}
+                {this.state.patientList[0].address?<Grid item xs={6}>
+                  <span style={{fontWeight:'bold'}}>Address :</span> {this.state.patientList[0].address}
+                </Grid>:null}
+                {this.state.patientList[0].status?<Grid item xs={6}>
+                  <span style={{fontWeight:'bold'}}>Mobile :</span> {this.state.patientList[0].mobile}
+                </Grid>:null}
+                {this.state.patientList[0].email?<Grid item xs={6}>
+                  <span style={{fontWeight:'bold'}}>Email :</span> {this.state.patientList[0].email}
+                </Grid>:null}
+                {this.state.patientList[0].medical_history?<Grid item xs={6}>
+                  <span style={{fontWeight:'bold'}}>Medical History :</span>                                {this.state.patientList[0].medical_history}
+                </Grid>:null}
+               </Grid>
+      </CardBody>
+      </Card>
+      </div>
+      </Dialog>
         <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
             {/* <Card style={{marginTop:'-30px',marginLeft:'-15px',width:'103%'}}>
@@ -95,35 +163,35 @@ class Test extends React.Component{
           </GridItem>
           <div className={classess.tableResponsive} style={{marginTop:'-20px',marginLeft:'15px'}}>
             <Table className={classess.table} >
-              <TableHead className={classess.primaryTableHeader} style={{fontWeight:'bold',backgroundColor: '#99b3ff'}}>
+              <TableHead className={classess.primaryTableHeader} style={{fontWeight:'bold'}}>
                 <TableRow className={classess.tableBodyRow}>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>Show</TableCell>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>PID</TableCell>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>Date</TableCell>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>Name</TableCell>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>Gender</TableCell>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>Age</TableCell>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>Address</TableCell>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>Mobile</TableCell>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>Email</TableCell>
-                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell}>Medical-History</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>Show</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>PID</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>Date</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>Name</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>Gender</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>Age</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>Address</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>Mobile</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>Email</TableCell>
+                  <TableCell align="center" style={{fontWeight:'bold'}} className={classess.tableCell + " "+ classess.tableHeadCell}>Medical-History</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
           {this.state.patientList.map((row) => (
             <TableRow key={row.pid}>
-              <TableCell align="center"><VisibilityIcon></VisibilityIcon></TableCell>
+              <TableCell align="center" className={classess.tableCell + " "+ classess.tableHeadCell}><IconButton onClick={()=>this.viewModal()}><VisibilityIcon></VisibilityIcon></IconButton></TableCell>
               <TableCell component="th" scope="row">
                 {row.pid}
               </TableCell>
-              <TableCell align="center">{row.date}</TableCell>
-              <TableCell align="center">{row.name}</TableCell>
-              <TableCell align="center">{row.gender}</TableCell>
-              <TableCell align="center">{row.age}</TableCell>
-              <TableCell align="center">{row.address}</TableCell>
-              <TableCell align="center">{row.mobile}</TableCell>
-              <TableCell align="center">{row.email}</TableCell>
-              <TableCell align="center">{row.medical_history}</TableCell>
+              <TableCell align="center" className={classess.tableCell + " "+ classess.tableHeadCell}>{row.date}</TableCell>
+              <TableCell align="center" className={classess.tableCell + " "+ classess.tableHeadCell}>{row.name}</TableCell>
+              <TableCell align="center" className={classess.tableCell + " "+ classess.tableHeadCell}>{row.gender}</TableCell>
+              <TableCell align="center" className={classess.tableCell + " "+ classess.tableHeadCell}>{row.age}</TableCell>
+              <TableCell align="center" className={classess.tableCell + " "+ classess.tableHeadCell}>{row.address}</TableCell>
+              <TableCell align="center" className={classess.tableCell + " "+ classess.tableHeadCell}>{row.mobile}</TableCell>
+              <TableCell align="center" className={classess.tableCell + " "+ classess.tableHeadCell}>{row.email}</TableCell>
+              <TableCell align="center" className={classess.tableCell + " "+ classess.tableHeadCell}>{row.medical_history}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -135,5 +203,56 @@ class Test extends React.Component{
   }
 
 }
+
+const styles = (theme) => ({
+  cardCategoryWhite: {
+    color: "rgba(255,255,255,.62)",
+    margin: "0",
+    fontSize: "14px",
+    marginTop: "0",
+    marginBottom: "0"
+  },
+  cardTitleWhite: {
+    color: "#FFFFFF",
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none"
+  },
+  tableClasses:{
+    border: '6px solid #d4d8da',overflowX:'auto'
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    marginTop:"-35px",
+    color:'white',
+    marginRight:"-15px"
+  }
+});
+
+const CustomIconButton = withStyles((theme) => ({
+root: {
+  float:"right",
+  color:"black",
+  },
+}))(IconButton);
+
+const DialogTitle = withStyles(styles)((props) => {
+const { children, classes, onClose, ...other } = props;
+return (
+<MuiDialogTitle disableTypography className={classes.root} {...other}>
+  <Typography>{children}</Typography>
+  {onClose ? (
+    <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+      <CloseIcon />
+    </IconButton>
+  ) : <div>sdasd</div>}
+</MuiDialogTitle>
+);
+});
 
 export default withStyles(tablestyle,{ withTheme:true})(Test);
